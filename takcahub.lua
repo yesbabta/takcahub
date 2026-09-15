@@ -1,1 +1,878 @@
-pcall(function()for _a,_b in pairs(game:GetService(string.char(67,111,114,101,71,117,105)):GetChildren())do if _b.Name:find(string.char(87,105,110,100,85,73))then _b:Destroy()end end if gethui then for _a,_b in pairs(gethui():GetChildren())do if _b.Name:find(string.char(87,105,110,100,85,73))then _b:Destroy()end end end end)task.wait(0.4)local _c=loadstring(game:HttpGet(string.char(104,116,116,112,115,58,47,47,103,105,116,104,117,98,46,99,111,109,47,70,111,111,116,97,103,101,115,117,115,47,87,105,110,100,85,73,47,114,101,108,101,97,115,101,115,47,108,97,116,101,115,116,47,100,111,119,110,108,111,97,100,47,109,97,105,110,46,108,117,97)))()if not _c then warn(string.char(91,116,97,107,99,97,104,117,98,93,32,87,105,110,100,85,73,32,1085,1077,32,1079,1072,1075,1088,1091,1078,1077,1085))return end local _d=game:GetService(string.char(80,108,97,121,101,114,115))local _e=game:GetService(string.char(85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101))local _f=game:GetService(string.char(82,117,110,83,101,114,118,105,99,101))local _g=game:GetService(string.char(87,111,114,107,115,112,97,99,101))local _h=game:GetService(string.char(76,105,103,104,116,105,110,103))local _i=game:GetService(string.char(72,116,116,112,83,101,114,118,105,99,101))local _j=_d.LocalPlayer local _k=_g.CurrentCamera local _l=_j:GetMouse()local _m={aimEnabled=true,silentAim=false,hardLock=false,teamCheck=true,ignoreFriends=true,aimPart=string.char(72,101,97,100),currentBind=Enum.KeyCode.E,aimMode=string.char(72,111,108,100),targetPriority=string.char(67,114,111,115,115,104,97,105,114),prediction=0.0,radius=200,smoothness=0.3,circleColor=Color3.fromRGB(124,92,255),fovVisible=true,triggerBot=false,triggerDelay=0.05,soundOnToggle=true,randomCircleColor=false,currentTheme=string.char(68,97,114,107),walkSpeed=16,jumpPower=50,flyEnabled=false,flySpeed=60,noclip=false,infJump=false,fullbright=false,espEnabled=false,toggleState=false,holdState=false,lockedTarget=nil,}getgenv().takcahubConfig=_m local _n=string.char(116,97,107,99,97,104,117,98,95,99,111,110,102,105,103,46,106,115,111,110)local function _o()if not writefile then return false end local _p=pcall(function()local _q={}for _r,_s in pairs(_m)do if typeof(_s)==string.char(67,111,108,111,114,51)then _q[_r]={__t=string.char(67,51),r=_s.R,_b=_s.G,_P=_s.B}elseif typeof(_s)==string.char(69,110,117,109,73,116,101,109)then _q[_r]={__t=string.char(69),et=tostring(_s.EnumType),_oa=_s.Name}elseif _r~=string.char(108,111,99,107,101,100,84,97,114,103,101,116)and _r~=string.char(116,111,103,103,108,101,83,116,97,116,101)and _r~=string.char(104,111,108,100,83,116,97,116,101)then _q[_r]=_s end end writefile(_n,_i:JSONEncode(_q))end)return _p end local function _t()if not isfile or not readfile then return false end if not isfile(_n)then return false end local _p=pcall(function()local _q=_i:JSONDecode(readfile(_n))for _r,_s in pairs(_q)do if _m[_r]~=nil then if type(_s)==string.char(116,97,98,108,101)and _s.__t==string.char(67,51)then _m[_r]=Color3.new(_s.r,_s._b,_s._P)elseif type(_s)==string.char(116,97,98,108,101)and _s.__t==string.char(69)then local _u=Enum[_s.et]if _u then _m[_r]=_u[_s._oa]end else _m[_r]=_s end end end end)return _p end local _v=Drawing.new(string.char(67,105,114,99,108,101))_v.Visible=false _v.Radius=_m.radius _v.Thickness=1.5 _v.Filled=false _v.Color=_m.circleColor _v.Transparency=1 local function _w(_x)local _y=_x:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))return _y and _y.Health>0 end local function _z()return _k.ViewportSize/2 end local function _A(_B)return(_z()-Vector2.new(_B.X,_B.Y)).Magnitude<=_m.radius end local function _C(_D)if not _m.teamCheck then return true end if not _D.Team then return true end if _j.Team and _D.Team==_j.Team then return false end return true end local function _E(_D)if not _m.ignoreFriends then return false end local _p,_F=pcall(function()return _j:GetFriendsOnline()end)if _p and _F then for _a,_H in ipairs(_F)do if _H.VisitorId==_D.UserId or _H.Username==_D.Name then return true end end end return false end local function _I(_x)local _J=_m.aimPart if _J==string.char(82,97,110,100,111,109)then _J=({string.char(72,101,97,100),string.char(85,112,112,101,114,84,111,114,115,111),string.char(76,111,119,101,114,84,111,114,115,111),string.char(84,111,114,115,111)})[math.random(1,4)]elseif _J==string.char(67,104,101,115,116)then _J=string.char(85,112,112,101,114,84,111,114,115,111)elseif _J==string.char(66,111,100,121)then _J=string.char(76,111,119,101,114,84,111,114,115,111)end local _K=_x:FindFirstChild(_J)if not _K then _K=_x:FindFirstChild(string.char(84,111,114,115,111))or _x:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))or _x:FindFirstChild(string.char(72,101,97,100))end return _K end local function _L()if _m.hardLock and _m.lockedTarget then local _K=_m.lockedTarget local _x=_K and _K.Parent if _x and _w(_x)then return _K end _m.lockedTarget=nil end local _M={}for _a,_D in ipairs(_d:GetPlayers())do if _D~=_j and _D.Character then local _x=_D.Character local _K=_I(_x)if _K and _w(_x)and _C(_D)and not _E(_D)then local _B,_N=_k:WorldToViewportPoint(_K.Position)if _N and _A(_B)then table.insert(_M,{_K=_K,screenDist=(Vector2.new(_B.X,_B.Y)-_z()).Magnitude,worldDist=(_k.CFrame.Position-_K.Position).Magnitude,health=_x:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100)).Health,})end end end end if#_M==0 then return nil end table.sort(_M,function(_O,_P)if _m.targetPriority==string.char(72,101,97,108,116,104)then return _O.health<_P.health elseif _m.targetPriority==string.char(67,114,111,115,115,104,97,105,114)then return _O.screenDist<_P.screenDist else return _O.worldDist<_P.worldDist end end)local _Q=_M[1]._K if _Q and _m.hardLock then _m.lockedTarget=_Q end return _Q end local function _R(_S)local _T=_k.CFrame local _U=CFrame.lookAt(_T.Position,_S)if _m.smoothness>0 then local _V=1-math.exp(-_m.smoothness*0.5)_k.CFrame=_T:Lerp(_U,_V)else _k.CFrame=_U end end local _W=_c:CreateWindow({Title=string.char(116,97,107,99,97,104,117,98),Author=string.char(118,50,46,48,32,117,110,105,118,101,114,115,97,108),Icon=string.char(114,98,120,97,115,115,101,116,105,100,58,47,47,49,48,55,51,52,56,57,54,50,50,54),IconSize=20,ToggleKey=Enum.KeyCode.RightShift,Size=UDim2.fromOffset(640,520),MinSize=Vector2.new(520,420),MaxSize=Vector2.new(950,750),Transparent=false,Acrylic=true,Resizable=true,SideBarWidth=180,HideSearchBar=false,AutoScale=true,Folder=string.char(116,97,107,99,97,104,117,98),User={Enabled=true,Anonymous=false},})task.spawn(function()task.wait(1.5)pcall(function()local _X=_c.ScreenGui if not _X then return end local _Y=_X:FindFirstChild(string.char(87,105,110,100,111,119))if not _Y then return end local _Z=_Y:GetChildren()[1]if not _Z then return end local _aa=_Z:FindFirstChild(string.char(66,97,99,107,103,114,111,117,110,100),true)if not _aa then return end local _ba=Instance.new(string.char(70,114,97,109,101))_ba.Name=string.char(82,97,121,115,67,111,110,116,97,105,110,101,114)_ba.Size=UDim2.new(1,0,1,0)_ba.BackgroundTransparency=1 _ba.ClipsDescendants=true _ba.ZIndex=0 _ba.Parent=_aa local _ca=Instance.new(string.char(85,73,67,111,114,110,101,114))_ca.CornerRadius=UDim.new(0,16)_ca.Parent=_ba for _da=1,3 do local _ea=Instance.new(string.char(70,114,97,109,101))_ea.Size=UDim2.new(0,260,0,260)_ea.Position=UDim2.new(0.5,-130,0.5,-130)_ea.BackgroundColor3=Color3.fromRGB(255,255,255)_ea.BackgroundTransparency=0.9 _ea.BorderSizePixel=0 _ea.ZIndex=0 _ea.Parent=_ba local _fa=Instance.new(string.char(85,73,67,111,114,110,101,114))_fa.CornerRadius=UDim.new(0,200)_fa.Parent=_ea local _ga=Instance.new(string.char(85,73,71,114,97,100,105,101,110,116))_ga.Color=ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.fromRGB(124,92,255)),ColorSequenceKeypoint.new(0.5,Color3.fromRGB(34,224,212)),ColorSequenceKeypoint.new(1,Color3.fromRGB(255,95,174)),})_ga.Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1),NumberSequenceKeypoint.new(0.5,0.75),NumberSequenceKeypoint.new(1,1),})_ga.Rotation=_da*60 _ga.Parent=_ea end end)end)local function _ha(_ia,_ja,_ka)pcall(function()_c:Notify({Title=_ia,Content=_ja,Duration=3,Icon=_ka orstring.char(105,110,102,111)})end)end local _la=_W:Tab({Title=string.char(65,105,109),Icon=string.char(99,114,111,115,115,104,97,105,114)})_la:Section({Title=string.char(65,105,109,98,111,116)})_la:Toggle({Title=string.char(69,110,97,98,108,101,32,65,105,109),Desc=string.char(1043,1083,1072,1074,1085,1099,1081,32,1074,1099,1082,1083,1102,1095,1072,1090,1077,1083,1100),Value=_m.aimEnabled,Callback=function(_s)_m.aimEnabled=_s if not _s then _m.toggleState=false _m.holdState=false _v.Visible=false end end,})_la:Toggle({Title=string.char(83,105,108,101,110,116,32,65,105,109),Desc=string.char(1042,1053,1048,1052,1040,1053,1048,1045,58,32,1084,1086,1078,1077,1090,32,1076,1077,1090,1077,1082,1090,1080,1090,1100,1089,1103,32,1072,1085,1090,1080,1095,1080,1090,1086,1084),Value=_m.silentAim,Callback=function(_s)_m.silentAim=_s end,})_la:Toggle({Title=string.char(72,97,114,100,32,76,111,99,107),Value=_m.hardLock,Callback=function(_s)_m.hardLock=_s end,})_la:Toggle({Title=string.char(84,101,97,109,32,67,104,101,99,107),Value=_m.teamCheck,Callback=function(_s)_m.teamCheck=_s end,})_la:Toggle({Title=string.char(73,103,110,111,114,101,32,70,114,105,101,110,100,115),Value=_m.ignoreFriends,Callback=function(_s)_m.ignoreFriends=_s end,})_la:Dropdown({Title=string.char(65,105,109,32,80,97,114,116),Values={string.char(72,101,97,100),string.char(67,104,101,115,116),string.char(66,111,100,121),string.char(82,97,110,100,111,109)},Value=_m.aimPart,Callback=function(_s)_m.aimPart=_s end,})_la:Dropdown({Title=string.char(80,114,105,111,114,105,116,121),Values={string.char(67,114,111,115,115,104,97,105,114),string.char(68,105,115,116,97,110,99,101),string.char(72,101,97,108,116,104)},Value=_m.targetPriority,Callback=function(_s)_m.targetPriority=_s end,})_la:Dropdown({Title=string.char(77,111,100,101),Values={string.char(72,111,108,100),string.char(84,111,103,103,108,101)},Value=_m.aimMode,Callback=function(_s)_m.aimMode=_s _m.toggleState=false _m.holdState=false _v.Visible=false end,})local _ma={R=Enum.KeyCode.R,E=Enum.KeyCode.E,F=Enum.KeyCode.F,Q=Enum.KeyCode.Q,C=Enum.KeyCode.C,V=Enum.KeyCode.V,Shift=Enum.KeyCode.LeftShift,[string.char(76,45,67,116,114,108)]=Enum.KeyCode.LeftControl,}local _na=string.char(69)for _oa,_r in pairs(_ma)do if _r==_m.currentBind then _na=_oa end end _la:Dropdown({Title=string.char(66,105,110,100,32,75,101,121),Values={string.char(82),string.char(69),string.char(70),string.char(81),string.char(67),string.char(86),string.char(83,104,105,102,116),string.char(76,45,67,116,114,108)},Value=_na,Callback=function(_s)if _ma[_s]then _m.currentBind=_ma[_s]end end,})_la:Slider({Title=string.char(80,114,101,100,105,99,116,105,111,110),Min=0,Max=100,Step=1,Value={Min=0,Max=100,Default=_m.prediction*100},Callback=function(_s)_m.prediction=_s/100 end,})_la:Section({Title=string.char(84,114,105,103,103,101,114,32,66,111,116)})_la:Toggle({Title=string.char(69,110,97,98,108,101,32,84,114,105,103,103,101,114),Value=_m.triggerBot,Callback=function(_s)_m.triggerBot=_s end,})_la:Slider({Title=string.char(84,114,105,103,103,101,114,32,68,101,108,97,121,32,40,109,115,41),Min=1,Max=200,Step=1,Value={Min=1,Max=200,Default=_m.triggerDelay*1000},Callback=function(_s)_m.triggerDelay=_s/1000 end,})local _pa=_W:Tab({Title=string.char(86,105,115,117,97,108,115),Icon=string.char(101,121,101)})_pa:Section({Title=string.char(70,79,86)})_pa:Toggle({Title=string.char(83,104,111,119,32,70,79,86),Value=_m.fovVisible,Callback=function(_s)_m.fovVisible=_s _v.Visible=_s and(_m.toggleState or _m.holdState)end,})_pa:Slider({Title=string.char(70,79,86,32,82,97,100,105,117,115),Min=30,Max=600,Step=10,Value={Min=30,Max=600,Default=_m.radius},Callback=function(_s)_m.radius=_s _v.Radius=_s end,})_pa:Slider({Title=string.char(83,109,111,111,116,104,110,101,115,115),Min=0,Max=100,Step=1,Value={Min=0,Max=100,Default=_m.smoothness*100},Callback=function(_s)_m.smoothness=_s/100 end,})local _qa={White=Color3.fromRGB(255,255,255),Red=Color3.fromRGB(255,0,0),Green=Color3.fromRGB(0,255,0),Blue=Color3.fromRGB(0,0,255),Purple=Color3.fromRGB(124,92,255),Cyan=Color3.fromRGB(34,224,212),Pink=Color3.fromRGB(255,95,174),Orange=Color3.fromRGB(255,140,0),}local _ra=string.char(80,117,114,112,108,101)for _oa,_sa in pairs(_qa)do if _sa==_m.circleColor then _ra=_oa end end _pa:Dropdown({Title=string.char(67,105,114,99,108,101,32,67,111,108,111,114),Values={string.char(87,104,105,116,101),string.char(82,101,100),string.char(71,114,101,101,110),string.char(66,108,117,101),string.char(80,117,114,112,108,101),string.char(67,121,97,110),string.char(80,105,110,107),string.char(79,114,97,110,103,101)},Value=_ra,Callback=function(_s)_m.circleColor=_qa[_s]or Color3.new(1,1,1)end,})_pa:Toggle({Title=string.char(82,97,110,100,111,109,32,67,105,114,99,108,101,32,67,111,108,111,114),Value=_m.randomCircleColor,Callback=function(_s)_m.randomCircleColor=_s end,})_pa:Section({Title=string.char(87,111,114,108,100)})_pa:Toggle({Title=string.char(70,117,108,108,98,114,105,103,104,116),Desc=string.char(1059,1073,1080,1088,1072,1077,1090,32,1090,1077,1084,1085,1086,1090,1091),Value=_m.fullbright,Callback=function(_s)_m.fullbright=_s if _s then _h.Brightness=3 _h.ClockTime=14 _h.GlobalShadows=false _h.FogEnd=1e6 else _h.Brightness=1 _h.ClockTime=12 _h.GlobalShadows=true _h.FogEnd=100000 end end,})local _ta=_W:Tab({Title=string.char(80,108,97,121,101,114),Icon=string.char(117,115,101,114)})_ta:Section({Title=string.char(1044,1074,1080,1078,1077,1085,1080,1077)})_ta:Slider({Title=string.char(87,97,108,107,83,112,101,101,100),Min=16,Max=200,Step=1,Value={Min=16,Max=200,Default=_m.walkSpeed},Callback=function(_s)_m.walkSpeed=_s if _j.Character then local _ua=_j.Character:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))if _ua then _ua.WalkSpeed=_s end end end,})_ta:Slider({Title=string.char(74,117,109,112,80,111,119,101,114),Min=50,Max=500,Step=5,Value={Min=50,Max=500,Default=_m.jumpPower},Callback=function(_s)_m.jumpPower=_s if _j.Character then local _ua=_j.Character:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))if _ua then _ua.JumpPower=_s _ua.UseJumpPower=true end end end,})_ta:Toggle({Title=string.char(73,110,102,105,110,105,116,101,32,74,117,109,112),Value=_m.infJump,Callback=function(_s)_m.infJump=_s end,})_ta:Toggle({Title=string.char(78,111,99,108,105,112),Desc=string.char(1055,1088,1086,1093,1086,1076,1080,1090,1100,32,1089,1082,1074,1086,1079,1100,32,1089,1090,1077,1085,1099),Value=_m.noclip,Callback=function(_s)_m.noclip=_s end,})_ta:Section({Title=string.char(70,108,121)})_ta:Toggle({Title=string.char(69,110,97,98,108,101,32,70,108,121),Value=_m.flyEnabled,Callback=function(_s)_m.flyEnabled=_s end,})_ta:Slider({Title=string.char(70,108,121,32,83,112,101,101,100),Min=10,Max=300,Step=5,Value={Min=10,Max=300,Default=_m.flySpeed},Callback=function(_s)_m.flySpeed=_s end,})local _va=_W:Tab({Title=string.char(84,104,101,109,101,115),Icon=string.char(112,97,108,101,116,116,101)})_va:Section({Title=string.char(49,54,32,1090,1077,1084,32,87,105,110,100,85,73)})local _wa={string.char(68,97,114,107),string.char(76,105,103,104,116),string.char(82,111,115,101),string.char(80,108,97,110,116),string.char(82,101,100),string.char(73,110,100,105,103,111),string.char(83,107,121),string.char(86,105,111,108,101,116),string.char(65,109,98,101,114),string.char(69,109,101,114,97,108,100),string.char(77,105,100,110,105,103,104,116),string.char(67,114,105,109,115,111,110),string.char(77,111,110,111,107,97,105,80,114,111),string.char(67,111,116,116,111,110,67,97,110,100,121),string.char(77,101,108,108,111,119,115,105),string.char(82,97,105,110,98,111,119)}_va:Dropdown({Title=string.char(84,104,101,109,101),Desc=string.char(1057,1084,1077,1085,1072,32,1090,1077,1084,1099),Values=_wa,Value=_m.currentTheme,Callback=function(_s)_m.currentTheme=_s pcall(function()_c:SetTheme(_s)end)_ha(string.char(84,104,101,109,101),string.char(1059,1089,1090,1072,1085,1086,1074,1083,1077,1085,1072,58,32).._s,string.char(112,97,108,101,116,116,101))end,})local _xa=_W:Tab({Title=string.char(77,105,115,99),Icon=string.char(119,114,101,110,99,104)})_xa:Section({Title=string.char(1055,1086,1083,1077,1079,1085,1099,1077,32,1089,1082,1088,1080,1087,1090,1099)})local function _ya(_za,_Aa)_ha(string.char(83,99,114,105,112,116),string.char(1047,1072,1087,1091,1089,1082,58,32).._Aa,string.char(100,111,119,110,108,111,97,100))task.spawn(function()local _p,_Ba=pcall(function()loadstring(game:HttpGet(_za))()end)if not _p then _ha(string.char(83,99,114,105,112,116,32,69,114,114,111,114),tostring(_Ba),string.char(120))end end)end _xa:Button({Title=string.char(73,110,102,105,110,105,116,101,32,89,105,101,108,100),Desc=string.char(1040,1076,1084,1080,1085,45,1082,1086,1084,1072,1085,1076,1099),Callback=function()_ya(string.char(104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,69,100,103,101,73,89,47,105,110,102,105,110,105,116,101,121,105,101,108,100,47,109,97,115,116,101,114,47,115,111,117,114,99,101),string.char(73,110,102,105,110,105,116,101,32,89,105,101,108,100))end,})_xa:Button({Title=string.char(78,97,109,101,108,101,115,115,32,65,100,109,105,110),Desc=string.char(1052,1086,1097,1085,1099,1081,32,1072,1076,1084,1080,1085,45,1089,1082,1088,1080,1087,1090),Callback=function()_ya(string.char(104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,70,105,108,116,101,114,105,110,103,69,110,97,98,108,101,100,47,78,97,109,101,108,101,115,115,65,100,109,105,110,47,109,97,105,110,47,83,111,117,114,99,101),string.char(78,97,109,101,108,101,115,115,32,65,100,109,105,110))end,})_xa:Button({Title=string.char(68,97,114,107,32,68,101,120),Desc=string.char(1055,1088,1086,1089,1084,1086,1090,1088,32,1076,1077,1088,1077,1074,1072,32,1080,1075,1088,1099),Callback=function()_ya(string.char(104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,66,97,98,121,104,97,109,115,116,97,47,82,66,76,88,95,83,99,114,105,112,116,115,47,109,97,105,110,47,85,110,105,118,101,114,115,97,108,47,76,111,97,100,115,116,114,105,110,103,46,108,117,97),string.char(68,97,114,107,32,68,101,120))end,})_xa:Button({Title=string.char(83,105,109,112,108,101,83,112,121),Desc=string.char(82,101,109,111,116,101,32,83,112,121),Callback=function()_ya(string.char(104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,55,56,110,47,83,105,109,112,108,101,83,112,121,47,109,97,105,110,47,83,105,109,112,108,101,83,112,121,46,108,117,97),string.char(83,105,109,112,108,101,83,112,121))end,})_xa:Button({Title=string.char(72,121,100,114,111,120,105,100,101),Desc=string.char(82,101,109,111,116,101,32,83,112,121,32,47,32,68,101,98,117,103),Callback=function()_ya(string.char(104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,85,112,98,111,108,116,47,72,121,100,114,111,120,105,100,101,47,109,97,115,116,101,114,47,115,114,99,47,104,121,100,114,111,120,105,100,101,46,108,117,97),string.char(72,121,100,114,111,120,105,100,101))end,})_xa:Button({Title=string.char(79,87,76,32,72,117,98),Desc=string.char(1059,1085,1080,1074,1077,1088,1089,1072,1083,1100,1085,1099,1081,32,1095,1080,1090,45,1093,1072,1073),Callback=function()_ya(string.char(104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,79,87,76,45,72,117,98,47,79,87,76,45,72,117,98,47,109,97,105,110,47,76,111,97,100,101,114,46,108,117,97),string.char(79,87,76,32,72,117,98))end,})_xa:Button({Title=string.char(73,89,32,78,101,116,119,111,114,107,32,40,82,101,106,111,105,110,41),Desc=string.char(1055,1077,1088,1077,1087,1086,1076,1082,1083,1102,1095,1077,1085,1080,1077),Callback=function()_ya(string.char(104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,69,100,103,101,73,89,47,105,110,102,105,110,105,116,101,121,105,101,108,100,47,109,97,115,116,101,114,47,115,111,117,114,99,101),string.char(73,89))end,})_xa:Section({Title=string.char(1059,1090,1080,1083,1080,1090,1099)})_xa:Button({Title=string.char(82,101,106,111,105,110,32,83,101,114,118,101,114),Callback=function()pcall(function()game:GetService(string.char(84,101,108,101,112,111,114,116,83,101,114,118,105,99,101)):Teleport(game.PlaceId,_j)end)end,})_xa:Button({Title=string.char(83,101,114,118,101,114,32,72,111,112),Callback=function()local _p=pcall(function()loadstring(game:HttpGet(string.char(104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,69,100,103,101,73,89,47,105,110,102,105,110,105,116,101,121,105,101,108,100,47,109,97,115,116,101,114,47,115,111,117,114,99,101)))()end)end,})_xa:Button({Title=string.char(82,101,115,101,116,32,67,104,97,114,97,99,116,101,114),Callback=function()pcall(function()if _j.Character then _j.Character:BreakJoints()end end)end,})local _Ca=_W:Tab({Title=string.char(67,111,110,102,105,103),Icon=string.char(115,97,118,101)})_Ca:Section({Title=string.char(1059,1087,1088,1072,1074,1083,1077,1085,1080,1077)})_Ca:Button({Title=string.char(83,97,118,101,32,67,111,110,102,105,103),Callback=function()if _o()then _ha(string.char(67,111,110,102,105,103),string.char(1057,1086,1093,1088,1072,1085,1077,1085,1086),string.char(99,104,101,99,107))else _ha(string.char(67,111,110,102,105,103),string.char(1054,1096,1080,1073,1082,1072),string.char(120))end end,})_Ca:Button({Title=string.char(76,111,97,100,32,67,111,110,102,105,103),Callback=function()if _t()then _ha(string.char(67,111,110,102,105,103),string.char(1047,1072,1075,1088,1091,1078,1077,1085,1086),string.char(99,104,101,99,107))_v.Radius=_m.radius _v.Color=_m.circleColor pcall(function()_c:SetTheme(_m.currentTheme)end)else _ha(string.char(67,111,110,102,105,103),string.char(1054,1096,1080,1073,1082,1072),string.char(120))end end,})_Ca:Button({Title=string.char(68,101,108,101,116,101,32,67,111,110,102,105,103),Callback=function()if delfile and isfile and isfile(_n)then delfile(_n)_ha(string.char(67,111,110,102,105,103),string.char(1059,1076,1072,1083,1077,1085,1086),string.char(116,114,97,115,104))end end,})_Ca:Button({Title=string.char(82,101,115,101,116,32,68,101,102,97,117,108,116,115),Callback=function()_m.radius=200 _m.smoothness=0.3 _m.circleColor=Color3.fromRGB(124,92,255)_m.targetPriority=string.char(67,114,111,115,115,104,97,105,114)_m.prediction=0.0 _m.aimPart=string.char(72,101,97,100)_m.aimMode=string.char(72,111,108,100)_m.triggerDelay=0.05 _m.currentTheme=string.char(68,97,114,107)_m.walkSpeed=16 _m.jumpPower=50 _m.flySpeed=60 _v.Radius=_m.radius _v.Color=_m.circleColor pcall(function()_c:SetTheme(string.char(68,97,114,107))end)_ha(string.char(67,111,110,102,105,103),string.char(1057,1073,1088,1086,1096,1077,1085,1086),string.char(114,101,102,114,101,115,104,45,99,119))end,})_e.InputBegan:Connect(function(_Da,_Ea)if _Ea then return end if _m.infJump and _Da.KeyCode==Enum.KeyCode.Space then if _j.Character then local _ua=_j.Character:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))if _ua then _ua:ChangeState(Enum.HumanoidStateType.Jumping)end end end if not _m.aimEnabled then return end if _Da.KeyCode==_m.currentBind then if _m.aimMode==string.char(84,111,103,103,108,101)then _m.toggleState=not _m.toggleState _v.Visible=_m.toggleState and _m.fovVisible if not _m.toggleState then _m.lockedTarget=nil end elseif _m.aimMode==string.char(72,111,108,100)then _m.holdState=true _v.Visible=_m.fovVisible end end end)_e.InputEnded:Connect(function(_Da)if not _m.aimEnabled then return end if _Da.KeyCode==_m.currentBind and _m.aimMode==string.char(72,111,108,100)then _m.holdState=false _v.Visible=false _m.lockedTarget=nil end end)local _Fa=false local _Ga=nil local function _Ha()if _Fa then return end local _p=pcall(function()local _Ia=getrawmetatable(game)if not _Ia then return end _Ga=_Ia.__index setreadonly(_Ia,false)_Ia.__index=newcclosure(function(self,_Ja)if _m.silentAim and _m.aimEnabled then local _Ka=_m.toggleState or _m.holdState if _Ka then local _La=(self==_l)or tostring(self)==string.char(77,111,117,115,101)if _La and(_Ja==string.char(72,105,116)or _Ja==string.char(84,97,114,103,101,116))then local _Ma=_L()if _Ma then if _Ja==string.char(72,105,116)then return CFrame.new(_Ma.Position)elseif _Ja==string.char(84,97,114,103,101,116)then return _Ma end end end end end return _Ga(self,_Ja)end)setreadonly(_Ia,true)_Fa=true end)end local function _Na()if not _Fa then return end pcall(function()local _Ia=getrawmetatable(game)if _Ia and _Ga then setreadonly(_Ia,false)_Ia.__index=_Ga setreadonly(_Ia,true)end end)_Fa=false end local _Oa=0 _f.RenderStepped:Connect(function(_Pa)if _m.randomCircleColor then _Oa=(_Oa+_Pa*0.2)%1 _v.Color=Color3.fromHSV(_Oa,1,1)else _v.Color=_m.circleColor end if _m.silentAim and _m.aimEnabled and not _Fa then _Ha()elseif not _m.silentAim and _Fa then _Na()end if not _m.aimEnabled then _v.Visible=false return end local _Ka=_m.toggleState or _m.holdState if not _Ka then _v.Visible=false return end _v.Visible=_m.fovVisible _v.Position=_z()_v.Radius=_m.radius if not _m.silentAim then local _Ma=_L()if _Ma then _R(_Ma.Position)end end end)local _Qa=0 _f.RenderStepped:Connect(function()if not _m.triggerBot then return end local _Ra=tick()if _Ra-_Qa<_m.triggerDelay then return end local _Ma=_L()if not _Ma then return end local _B=_k:WorldToViewportPoint(_Ma.Position)local _Sa=(Vector2.new(_B.X,_B.Y)-_z()).Magnitude if _Sa>15 then return end _Qa=_Ra if mouse1click then mouse1click()end end)_f.Stepped:Connect(function()if not _m.noclip then return end if not _j.Character then return end for _a,_Ta in ipairs(_j.Character:GetDescendants())do if _Ta:IsA(string.char(66,97,115,101,80,97,114,116))and _Ta.CanCollide then _Ta.CanCollide=false end end end)local _Ua,_Va _f.RenderStepped:Connect(function(_Pa)if not _j.Character then return end local _Wa=_j.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))if not _Wa then return end if _m.flyEnabled then local _ua=_j.Character:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))if _ua then _ua.PlatformStand=true end if not _Ua then _Ua=Instance.new(string.char(66,111,100,121,86,101,108,111,99,105,116,121))_Ua.MaxForce=Vector3.new(1e5,1e5,1e5)_Ua.Velocity=Vector3.zero _Ua.Parent=_Wa end if not _Va then _Va=Instance.new(string.char(66,111,100,121,71,121,114,111))_Va.MaxTorque=Vector3.new(1e5,1e5,1e5)_Va.P=1e4 _Va.Parent=_Wa end local _Xa=Vector3.zero if _e:IsKeyDown(Enum.KeyCode.W)then _Xa+=_k.CFrame.LookVector end if _e:IsKeyDown(Enum.KeyCode.S)then _Xa-=_k.CFrame.LookVector end if _e:IsKeyDown(Enum.KeyCode.A)then _Xa-=_k.CFrame.RightVector end if _e:IsKeyDown(Enum.KeyCode.D)then _Xa+=_k.CFrame.RightVector end if _e:IsKeyDown(Enum.KeyCode.Space)then _Xa+=Vector3.new(0,1,0)end if _e:IsKeyDown(Enum.KeyCode.LeftShift)then _Xa-=Vector3.new(0,1,0)end if _Xa.Magnitude>0 then _Xa=_Xa.Unit*_m.flySpeed end _Ua.Velocity=_Xa _Va.CFrame=_k.CFrame else if _Ua then _Ua:Destroy()_Ua=nil end if _Va then _Va:Destroy()_Va=nil end end end)_j.CharacterAdded:Connect(function(_x)task.wait(1)local _ua=_x:WaitForChild(string.char(72,117,109,97,110,111,105,100),5)if _ua then _ua.WalkSpeed=_m.walkSpeed _ua.JumpPower=_m.jumpPower end end)_ha(string.char(116,97,107,99,97,104,117,98,32,118,50,46,48),string.char(82,105,103,104,116,83,104,105,102,116,32,8212,32,1084,1077,1085,1102,46,32,65,105,109,32,1042,1050,1051,46),string.char(99,104,101,99,107))print(string.char(91,116,97,107,99,97,104,117,98,93,32,118,50,46,48,32,108,111,97,100,101,100,46,32,77,101,110,117,58,32,82,105,103,104,116,83,104,105,102,116))
+pcall(function()
+    for _, g in pairs(game:GetService("CoreGui"):GetChildren()) do
+        if g.Name:find("WindUI") then g:Destroy() end
+    end
+    if gethui then
+        for _, g in pairs(gethui():GetChildren()) do
+            if g.Name:find("WindUI") then g:Destroy() end
+        end
+    end
+end)
+task.wait(0.4)
+
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+if not WindUI then warn("[takcahub] WindUI load failed") return end
+
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+local HttpService = game:GetService("HttpService")
+
+local player = Players.LocalPlayer
+local camera = Workspace.CurrentCamera
+local mouse = player:GetMouse()
+
+local settings = {
+    aimEnabled = true,
+    silentAim = false,
+    hardLock = false,
+    teamCheck = true,
+    ignoreFriends = true,
+    aimPart = "Head",
+    currentBind = Enum.KeyCode.E,
+    aimMode = "Hold",
+    targetPriority = "Crosshair",
+    prediction = 0.0,
+    radius = 200,
+    smoothness = 0.3,
+    circleColor = Color3.fromRGB(124, 92, 255),
+    fovVisible = true,
+    triggerBot = false,
+    triggerDelay = 0.05,
+    soundOnToggle = true,
+    randomCircleColor = false,
+    currentTheme = "Dark",
+    walkSpeed = 16,
+    jumpPower = 50,
+    flyEnabled = false,
+    flySpeed = 60,
+    noclip = false,
+    infJump = false,
+    fullbright = false,
+    toggleState = false,
+    holdState = false,
+    lockedTarget = nil,
+}
+getgenv().takcahubConfig = settings
+
+local CONFIG_FILE = "takcahub_config.json"
+
+local function saveConfig()
+    if not writefile then return false end
+    local ok = pcall(function()
+        local data = {}
+        for k, v in pairs(settings) do
+            if typeof(v) == "Color3" then
+                data[k] = {__t = "C3", r = v.R, g = v.G, b = v.B}
+            elseif typeof(v) == "EnumItem" then
+                data[k] = {__t = "E", et = tostring(v.EnumType), n = v.Name}
+            elseif k ~= "lockedTarget" and k ~= "toggleState" and k ~= "holdState" then
+                data[k] = v
+            end
+        end
+        writefile(CONFIG_FILE, HttpService:JSONEncode(data))
+    end)
+    return ok
+end
+
+local function loadConfig()
+    if not isfile or not readfile then return false end
+    if not isfile(CONFIG_FILE) then return false end
+    local ok = pcall(function()
+        local data = HttpService:JSONDecode(readfile(CONFIG_FILE))
+        for k, v in pairs(data) do
+            if settings[k] ~= nil then
+                if type(v) == "table" and v.__t == "C3" then
+                    settings[k] = Color3.new(v.r, v.g, v.b)
+                elseif type(v) == "table" and v.__t == "E" then
+                    local enum = Enum[v.et]
+                    if enum then settings[k] = enum[v.n] end
+                else
+                    settings[k] = v
+                end
+            end
+        end
+    end)
+    return ok
+end
+
+local circle = Drawing.new("Circle")
+circle.Visible = false
+circle.Radius = settings.radius
+circle.Thickness = 1.5
+circle.Filled = false
+circle.Color = settings.circleColor
+circle.Transparency = 1
+
+local function isAlive(char)
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    return hum and hum.Health > 0
+end
+
+local function getCenter()
+    return camera.ViewportSize / 2
+end
+
+local function insideCircle(sp)
+    return (getCenter() - Vector2.new(sp.X, sp.Y)).Magnitude <= settings.radius
+end
+
+local function isEnemy(plr)
+    if not settings.teamCheck then return true end
+    if not plr.Team then return true end
+    if player.Team and plr.Team == player.Team then return false end
+    return true
+end
+
+local function isFriend(plr)
+    if not settings.ignoreFriends then return false end
+    local ok, friends = pcall(function() return player:GetFriendsOnline() end)
+    if ok and friends then
+        for _, f in ipairs(friends) do
+            if f.VisitorId == plr.UserId or f.Username == plr.Name then return true end
+        end
+    end
+    return false
+end
+
+local function getAimPart(char)
+    local partName = settings.aimPart
+    if partName == "Random" then
+        partName = ({"Head", "UpperTorso", "LowerTorso", "Torso"})[math.random(1, 4)]
+    elseif partName == "Chest" then partName = "UpperTorso"
+    elseif partName == "Body" then partName = "LowerTorso"
+    end
+    local part = char:FindFirstChild(partName)
+    if not part then
+        part = char:FindFirstChild("Torso") or char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Head")
+    end
+    return part
+end
+
+local function getTarget()
+    if settings.hardLock and settings.lockedTarget then
+        local part = settings.lockedTarget
+        local char = part and part.Parent
+        if char and isAlive(char) then return part end
+        settings.lockedTarget = nil
+    end
+    local candidates = {}
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= player and plr.Character then
+            local char = plr.Character
+            local part = getAimPart(char)
+            if part and isAlive(char) and isEnemy(plr) and not isFriend(plr) then
+                local sp, onScreen = camera:WorldToViewportPoint(part.Position)
+                if onScreen and insideCircle(sp) then
+                    table.insert(candidates, {
+                        part = part,
+                        screenDist = (Vector2.new(sp.X, sp.Y) - getCenter()).Magnitude,
+                        worldDist = (camera.CFrame.Position - part.Position).Magnitude,
+                        health = char:FindFirstChildOfClass("Humanoid").Health,
+                    })
+                end
+            end
+        end
+    end
+    if #candidates == 0 then return nil end
+    table.sort(candidates, function(a, b)
+        if settings.targetPriority == "Health" then return a.health < b.health
+        elseif settings.targetPriority == "Crosshair" then return a.screenDist < b.screenDist
+        else return a.worldDist < b.worldDist end
+    end)
+    local nearest = candidates[1].part
+    if nearest and settings.hardLock then settings.lockedTarget = nearest end
+    return nearest
+end
+
+local function smoothAim(targetPos)
+    local currentCF = camera.CFrame
+    local targetCF = CFrame.lookAt(currentCF.Position, targetPos)
+    if settings.smoothness > 0 then
+        local lerp = 1 - math.exp(-settings.smoothness * 0.5)
+        camera.CFrame = currentCF:Lerp(targetCF, lerp)
+    else
+        camera.CFrame = targetCF
+    end
+end
+
+local Window = WindUI:CreateWindow({
+    Title = "takcahub",
+    Author = "v2.1 universal",
+    Icon = "rbxassetid://10734896226",
+    IconSize = 20,
+    ToggleKey = Enum.KeyCode.RightShift,
+    Size = UDim2.fromOffset(640, 520),
+    MinSize = Vector2.new(520, 420),
+    MaxSize = Vector2.new(950, 750),
+    Transparent = false,
+    Acrylic = true,
+    Resizable = true,
+    SideBarWidth = 180,
+    HideSearchBar = false,
+    AutoScale = true,
+    Folder = "takcahub",
+    User = { Enabled = true, Anonymous = false },
+})
+
+task.spawn(function()
+    task.wait(1.5)
+    pcall(function()
+        local gui = WindUI.ScreenGui
+        if not gui then return end
+        local folder = gui:FindFirstChild("Window")
+        if not folder then return end
+        local first = folder:GetChildren()[1]
+        if not first then return end
+        local bg = first:FindFirstChild("Background", true)
+        if not bg then return end
+        local rc = Instance.new("Frame")
+        rc.Name = "RaysContainer"
+        rc.Size = UDim2.new(1, 0, 1, 0)
+        rc.BackgroundTransparency = 1
+        rc.ClipsDescendants = true
+        rc.ZIndex = 0
+        rc.Parent = bg
+        local cor = Instance.new("UICorner")
+        cor.CornerRadius = UDim.new(0, 16)
+        cor.Parent = rc
+        for i = 1, 3 do
+            local ray = Instance.new("Frame")
+            ray.Size = UDim2.new(0, 260, 0, 260)
+            ray.Position = UDim2.new(0.5, -130, 0.5, -130)
+            ray.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ray.BackgroundTransparency = 0.9
+            ray.BorderSizePixel = 0
+            ray.ZIndex = 0
+            ray.Parent = rc
+            local rcor = Instance.new("UICorner")
+            rcor.CornerRadius = UDim.new(0, 200)
+            rcor.Parent = ray
+            local grad = Instance.new("UIGradient")
+            grad.Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(124, 92, 255)),
+                ColorSequenceKeypoint.new(0.5, Color3.fromRGB(34, 224, 212)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 95, 174)),
+            })
+            grad.Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 1),
+                NumberSequenceKeypoint.new(0.5, 0.75),
+                NumberSequenceKeypoint.new(1, 1),
+            })
+            grad.Rotation = i * 60
+            grad.Parent = ray
+        end
+    end)
+end)
+
+local function notify(title, content, icon)
+    pcall(function()
+        WindUI:Notify({ Title = title, Content = content, Duration = 3, Icon = icon or "info" })
+    end)
+end
+
+local AimTab = Window:Tab({ Title = "Aim", Icon = "crosshair" })
+AimTab:Section({ Title = "Aimbot" })
+
+AimTab:Toggle({
+    Title = "Enable Aim",
+    Desc = "Main switch",
+    Value = settings.aimEnabled,
+    Callback = function(v)
+        settings.aimEnabled = v
+        if not v then
+            settings.toggleState = false
+            settings.holdState = false
+            circle.Visible = false
+        end
+    end,
+})
+
+AimTab:Toggle({
+    Title = "Silent Aim",
+    Desc = "Warning: may be detected",
+    Value = settings.silentAim,
+    Callback = function(v) settings.silentAim = v end,
+})
+
+AimTab:Toggle({
+    Title = "Hard Lock",
+    Desc = "Stick to one target",
+    Value = settings.hardLock,
+    Callback = function(v) settings.hardLock = v end,
+})
+
+AimTab:Toggle({
+    Title = "Team Check",
+    Desc = "Skip teammates",
+    Value = settings.teamCheck,
+    Callback = function(v) settings.teamCheck = v end,
+})
+
+AimTab:Toggle({
+    Title = "Ignore Friends",
+    Desc = "Skip friends",
+    Value = settings.ignoreFriends,
+    Callback = function(v) settings.ignoreFriends = v end,
+})
+
+AimTab:Dropdown({
+    Title = "Aim Part",
+    Values = { "Head", "Chest", "Body", "Random" },
+    Value = settings.aimPart,
+    Callback = function(v) settings.aimPart = v end,
+})
+
+AimTab:Dropdown({
+    Title = "Priority",
+    Values = { "Crosshair", "Distance", "Health" },
+    Value = settings.targetPriority,
+    Callback = function(v) settings.targetPriority = v end,
+})
+
+AimTab:Dropdown({
+    Title = "Mode",
+    Values = { "Hold", "Toggle" },
+    Value = settings.aimMode,
+    Callback = function(v)
+        settings.aimMode = v
+        settings.toggleState = false
+        settings.holdState = false
+        circle.Visible = false
+    end,
+})
+
+local bindMap = {
+    R = Enum.KeyCode.R, E = Enum.KeyCode.E, F = Enum.KeyCode.F,
+    Q = Enum.KeyCode.Q, C = Enum.KeyCode.C, V = Enum.KeyCode.V,
+    Shift = Enum.KeyCode.LeftShift, ["L-Ctrl"] = Enum.KeyCode.LeftControl,
+}
+
+local curBind = "E"
+for n, k in pairs(bindMap) do
+    if k == settings.currentBind then curBind = n end
+end
+
+AimTab:Dropdown({
+    Title = "Bind Key",
+    Values = { "R", "E", "F", "Q", "C", "V", "Shift", "L-Ctrl" },
+    Value = curBind,
+    Callback = function(v) if bindMap[v] then settings.currentBind = bindMap[v] end end,
+})
+
+AimTab:Slider({
+    Title = "Prediction",
+    Desc = "Target movement compensation",
+    Min = 0, Max = 100, Step = 1,
+    Value = { Min = 0, Max = 100, Default = settings.prediction * 100 },
+    Callback = function(v) settings.prediction = v / 100 end,
+})
+
+AimTab:Section({ Title = "Trigger Bot" })
+
+AimTab:Toggle({
+    Title = "Enable Trigger",
+    Desc = "Auto shoot on target",
+    Value = settings.triggerBot,
+    Callback = function(v) settings.triggerBot = v end,
+})
+
+AimTab:Slider({
+    Title = "Trigger Delay (ms)",
+    Min = 1, Max = 200, Step = 1,
+    Value = { Min = 1, Max = 200, Default = settings.triggerDelay * 1000 },
+    Callback = function(v) settings.triggerDelay = v / 1000 end,
+})
+
+local VisualsTab = Window:Tab({ Title = "Visuals", Icon = "eye" })
+VisualsTab:Section({ Title = "FOV" })
+
+VisualsTab:Toggle({
+    Title = "Show FOV",
+    Desc = "Draw FOV circle",
+    Value = settings.fovVisible,
+    Callback = function(v)
+        settings.fovVisible = v
+        circle.Visible = v and (settings.toggleState or settings.holdState)
+    end,
+})
+
+VisualsTab:Slider({
+    Title = "FOV Radius",
+    Min = 30, Max = 600, Step = 10,
+    Value = { Min = 30, Max = 600, Default = settings.radius },
+    Callback = function(v)
+        settings.radius = v
+        circle.Radius = v
+    end,
+})
+
+VisualsTab:Slider({
+    Title = "Smoothness",
+    Desc = "0 = instant",
+    Min = 0, Max = 100, Step = 1,
+    Value = { Min = 0, Max = 100, Default = settings.smoothness * 100 },
+    Callback = function(v) settings.smoothness = v / 100 end,
+})
+
+local colorMap = {
+    White = Color3.fromRGB(255, 255, 255),
+    Red = Color3.fromRGB(255, 0, 0),
+    Green = Color3.fromRGB(0, 255, 0),
+    Blue = Color3.fromRGB(0, 0, 255),
+    Purple = Color3.fromRGB(124, 92, 255),
+    Cyan = Color3.fromRGB(34, 224, 212),
+    Pink = Color3.fromRGB(255, 95, 174),
+    Orange = Color3.fromRGB(255, 140, 0),
+}
+
+local ccName = "Purple"
+for n, c in pairs(colorMap) do if c == settings.circleColor then ccName = n end end
+
+VisualsTab:Dropdown({
+    Title = "Circle Color",
+    Values = { "White", "Red", "Green", "Blue", "Purple", "Cyan", "Pink", "Orange" },
+    Value = ccName,
+    Callback = function(v) settings.circleColor = colorMap[v] or Color3.new(1, 1, 1) end,
+})
+
+VisualsTab:Toggle({
+    Title = "Random Circle Color",
+    Desc = "RGB rainbow",
+    Value = settings.randomCircleColor,
+    Callback = function(v) settings.randomCircleColor = v end,
+})
+
+VisualsTab:Section({ Title = "World" })
+
+VisualsTab:Toggle({
+    Title = "Fullbright",
+    Desc = "Remove darkness",
+    Value = settings.fullbright,
+    Callback = function(v)
+        settings.fullbright = v
+        if v then
+            Lighting.Brightness = 3
+            Lighting.ClockTime = 14
+            Lighting.GlobalShadows = false
+            Lighting.FogEnd = 1e6
+        else
+            Lighting.Brightness = 1
+            Lighting.ClockTime = 12
+            Lighting.GlobalShadows = true
+            Lighting.FogEnd = 100000
+        end
+    end,
+})
+
+local PlayerTab = Window:Tab({ Title = "Player", Icon = "user" })
+PlayerTab:Section({ Title = "Movement" })
+
+PlayerTab:Slider({
+    Title = "WalkSpeed",
+    Min = 16, Max = 200, Step = 1,
+    Value = { Min = 16, Max = 200, Default = settings.walkSpeed },
+    Callback = function(v)
+        settings.walkSpeed = v
+        if player.Character then
+            local h = player.Character:FindFirstChildOfClass("Humanoid")
+            if h then h.WalkSpeed = v end
+        end
+    end,
+})
+
+PlayerTab:Slider({
+    Title = "JumpPower",
+    Min = 50, Max = 500, Step = 5,
+    Value = { Min = 50, Max = 500, Default = settings.jumpPower },
+    Callback = function(v)
+        settings.jumpPower = v
+        if player.Character then
+            local h = player.Character:FindFirstChildOfClass("Humanoid")
+            if h then h.JumpPower = v h.UseJumpPower = true end
+        end
+    end,
+})
+
+PlayerTab:Toggle({
+    Title = "Infinite Jump",
+    Desc = "Jump in mid air",
+    Value = settings.infJump,
+    Callback = function(v) settings.infJump = v end,
+})
+
+PlayerTab:Toggle({
+    Title = "Noclip",
+    Desc = "Walk through walls",
+    Value = settings.noclip,
+    Callback = function(v) settings.noclip = v end,
+})
+
+PlayerTab:Section({ Title = "Fly" })
+
+PlayerTab:Toggle({
+    Title = "Enable Fly",
+    Desc = "WASD to fly",
+    Value = settings.flyEnabled,
+    Callback = function(v) settings.flyEnabled = v end,
+})
+
+PlayerTab:Slider({
+    Title = "Fly Speed",
+    Min = 10, Max = 300, Step = 5,
+    Value = { Min = 10, Max = 300, Default = settings.flySpeed },
+    Callback = function(v) settings.flySpeed = v end,
+})
+
+local ThemesTab = Window:Tab({ Title = "Themes", Icon = "palette" })
+ThemesTab:Section({ Title = "16 WindUI themes" })
+
+local availableThemes = {
+    "Dark", "Light", "Rose", "Plant", "Red", "Indigo",
+    "Sky", "Violet", "Amber", "Emerald", "Midnight",
+    "Crimson", "MonokaiPro", "CottonCandy", "Mellowsi", "Rainbow"
+}
+
+ThemesTab:Dropdown({
+    Title = "Theme",
+    Desc = "Change UI theme",
+    Values = availableThemes,
+    Value = settings.currentTheme,
+    Callback = function(v)
+        settings.currentTheme = v
+        pcall(function() WindUI:SetTheme(v) end)
+        notify("Theme", "Applied: " .. v, "palette")
+    end,
+})
+
+local MiscTab = Window:Tab({ Title = "Misc", Icon = "wrench" })
+MiscTab:Section({ Title = "Scripts" })
+
+local function runScript(url, name)
+    notify("Script", "Loading: " .. name, "download")
+    task.spawn(function()
+        local ok, err = pcall(function()
+            loadstring(game:HttpGet(url))()
+        end)
+        if not ok then
+            notify("Script Error", tostring(err), "x")
+        end
+    end)
+end
+
+MiscTab:Button({
+    Title = "Infinite Yield",
+    Desc = "Admin commands",
+    Callback = function()
+        runScript("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", "Infinite Yield")
+    end,
+})
+
+MiscTab:Button({
+    Title = "Nameless Admin",
+    Desc = "Powerful admin script",
+    Callback = function()
+        runScript("https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source", "Nameless Admin")
+    end,
+})
+
+MiscTab:Button({
+    Title = "Dark Dex",
+    Desc = "Game tree viewer",
+    Callback = function()
+        runScript("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/Loadstring.lua", "Dark Dex")
+    end,
+})
+
+MiscTab:Button({
+    Title = "SimpleSpy",
+    Desc = "Remote spy",
+    Callback = function()
+        runScript("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpy.lua", "SimpleSpy")
+    end,
+})
+
+MiscTab:Button({
+    Title = "Hydroxide",
+    Desc = "Remote spy / debug",
+    Callback = function()
+        runScript("https://raw.githubusercontent.com/Upbolt/Hydroxide/master/src/hydroxide.lua", "Hydroxide")
+    end,
+})
+
+MiscTab:Button({
+    Title = "OWL Hub",
+    Desc = "Universal cheat hub",
+    Callback = function()
+        runScript("https://raw.githubusercontent.com/OWL-Hub/OWL-Hub/main/Loader.lua", "OWL Hub")
+    end,
+})
+
+MiscTab:Section({ Title = "Utilities" })
+
+MiscTab:Button({
+    Title = "Rejoin Server",
+    Desc = "Reconnect to same server",
+    Callback = function()
+        pcall(function()
+            game:GetService("TeleportService"):Teleport(game.PlaceId, player)
+        end)
+    end,
+})
+
+MiscTab:Button({
+    Title = "Reset Character",
+    Desc = "Kill your character",
+    Callback = function()
+        pcall(function()
+            if player.Character then
+                player.Character:BreakJoints()
+            end
+        end)
+    end,
+})
+
+local ConfigTab = Window:Tab({ Title = "Config", Icon = "save" })
+ConfigTab:Section({ Title = "Management" })
+
+ConfigTab:Button({
+    Title = "Save Config",
+    Desc = "Save settings to file",
+    Callback = function()
+        if saveConfig() then notify("Config", "Saved", "check")
+        else notify("Config", "Save failed", "x") end
+    end,
+})
+
+ConfigTab:Button({
+    Title = "Load Config",
+    Desc = "Load settings from file",
+    Callback = function()
+        if loadConfig() then
+            notify("Config", "Loaded", "check")
+            circle.Radius = settings.radius
+            circle.Color = settings.circleColor
+            pcall(function() WindUI:SetTheme(settings.currentTheme) end)
+        else
+            notify("Config", "Load failed", "x")
+        end
+    end,
+})
+
+ConfigTab:Button({
+    Title = "Delete Config",
+    Desc = "Remove config file",
+    Callback = function()
+        if delfile and isfile and isfile(CONFIG_FILE) then
+            delfile(CONFIG_FILE)
+            notify("Config", "Deleted", "trash")
+        end
+    end,
+})
+
+ConfigTab:Button({
+    Title = "Reset Defaults",
+    Desc = "Reset all settings",
+    Callback = function()
+        settings.radius = 200
+        settings.smoothness = 0.3
+        settings.circleColor = Color3.fromRGB(124, 92, 255)
+        settings.targetPriority = "Crosshair"
+        settings.prediction = 0.0
+        settings.aimPart = "Head"
+        settings.aimMode = "Hold"
+        settings.triggerDelay = 0.05
+        settings.currentTheme = "Dark"
+        settings.walkSpeed = 16
+        settings.jumpPower = 50
+        settings.flySpeed = 60
+        circle.Radius = settings.radius
+        circle.Color = settings.circleColor
+        pcall(function() WindUI:SetTheme("Dark") end)
+        notify("Config", "Reset", "refresh-cw")
+    end,
+})
+
+UIS.InputBegan:Connect(function(input, gp)
+    if gp then return end
+    if settings.infJump and input.KeyCode == Enum.KeyCode.Space then
+        if player.Character then
+            local h = player.Character:FindFirstChildOfClass("Humanoid")
+            if h then h:ChangeState(Enum.HumanoidStateType.Jumping) end
+        end
+    end
+    if not settings.aimEnabled then return end
+    if input.KeyCode == settings.currentBind then
+        if settings.aimMode == "Toggle" then
+            settings.toggleState = not settings.toggleState
+            circle.Visible = settings.toggleState and settings.fovVisible
+            if not settings.toggleState then settings.lockedTarget = nil end
+        elseif settings.aimMode == "Hold" then
+            settings.holdState = true
+            circle.Visible = settings.fovVisible
+        end
+    end
+end)
+
+UIS.InputEnded:Connect(function(input)
+    if not settings.aimEnabled then return end
+    if input.KeyCode == settings.currentBind and settings.aimMode == "Hold" then
+        settings.holdState = false
+        circle.Visible = false
+        settings.lockedTarget = nil
+    end
+end)
+
+local silentHooked = false
+local oldIndexRef = nil
+
+local function applySilentHook()
+    if silentHooked then return end
+    pcall(function()
+        local mt = getrawmetatable(game)
+        if not mt then return end
+        oldIndexRef = mt.__index
+        setreadonly(mt, false)
+        mt.__index = newcclosure(function(self, key)
+            if settings.silentAim and settings.aimEnabled then
+                local active = settings.toggleState or settings.holdState
+                if active then
+                    local isMouse = (self == mouse) or tostring(self) == "Mouse"
+                    if isMouse and (key == "Hit" or key == "Target") then
+                        local target = getTarget()
+                        if target then
+                            if key == "Hit" then return CFrame.new(target.Position)
+                            elseif key == "Target" then return target end
+                        end
+                    end
+                end
+            end
+            return oldIndexRef(self, key)
+        end)
+        setreadonly(mt, true)
+        silentHooked = true
+    end)
+end
+
+local function removeSilentHook()
+    if not silentHooked then return end
+    pcall(function()
+        local mt = getrawmetatable(game)
+        if mt and oldIndexRef then
+            setreadonly(mt, false)
+            mt.__index = oldIndexRef
+            setreadonly(mt, true)
+        end
+    end)
+    silentHooked = false
+end
+
+local hue = 0
+
+RunService.RenderStepped:Connect(function(dt)
+    if settings.randomCircleColor then
+        hue = (hue + dt * 0.2) % 1
+        circle.Color = Color3.fromHSV(hue, 1, 1)
+    else
+        circle.Color = settings.circleColor
+    end
+
+    if settings.silentAim and settings.aimEnabled and not silentHooked then
+        applySilentHook()
+    elseif not settings.silentAim and silentHooked then
+        removeSilentHook()
+    end
+
+    if not settings.aimEnabled then
+        circle.Visible = false
+        return
+    end
+
+    local active = settings.toggleState or settings.holdState
+    if not active then
+        circle.Visible = false
+        return
+    end
+
+    circle.Visible = settings.fovVisible
+    circle.Position = getCenter()
+    circle.Radius = settings.radius
+
+    if not settings.silentAim then
+        local target = getTarget()
+        if target then smoothAim(target.Position) end
+    end
+end)
+
+local lastTrigger = 0
+RunService.RenderStepped:Connect(function()
+    if not settings.triggerBot then return end
+    local now = tick()
+    if now - lastTrigger < settings.triggerDelay then return end
+    local target = getTarget()
+    if not target then return end
+    local sp = camera:WorldToViewportPoint(target.Position)
+    local dist = (Vector2.new(sp.X, sp.Y) - getCenter()).Magnitude
+    if dist > 15 then return end
+    lastTrigger = now
+    if mouse1click then mouse1click() end
+end)
+
+RunService.Stepped:Connect(function()
+    if not settings.noclip then return end
+    if not player.Character then return end
+    for _, p in ipairs(player.Character:GetDescendants()) do
+        if p:IsA("BasePart") and p.CanCollide then p.CanCollide = false end
+    end
+end)
+
+local flyBodyVel, flyBodyGyro
+RunService.RenderStepped:Connect(function(dt)
+    if not player.Character then return end
+    local hrp = player.Character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    if settings.flyEnabled then
+        local h = player.Character:FindFirstChildOfClass("Humanoid")
+        if h then h.PlatformStand = true end
+        if not flyBodyVel then
+            flyBodyVel = Instance.new("BodyVelocity")
+            flyBodyVel.MaxForce = Vector3.new(1e5, 1e5, 1e5)
+            flyBodyVel.Velocity = Vector3.zero
+            flyBodyVel.Parent = hrp
+        end
+        if not flyBodyGyro then
+            flyBodyGyro = Instance.new("BodyGyro")
+            flyBodyGyro.MaxTorque = Vector3.new(1e5, 1e5, 1e5)
+            flyBodyGyro.P = 1e4
+            flyBodyGyro.Parent = hrp
+        end
+        local move = Vector3.zero
+        if UIS:IsKeyDown(Enum.KeyCode.W) then move += camera.CFrame.LookVector end
+        if UIS:IsKeyDown(Enum.KeyCode.S) then move -= camera.CFrame.LookVector end
+        if UIS:IsKeyDown(Enum.KeyCode.A) then move -= camera.CFrame.RightVector end
+        if UIS:IsKeyDown(Enum.KeyCode.D) then move += camera.CFrame.RightVector end
+        if UIS:IsKeyDown(Enum.KeyCode.Space) then move += Vector3.new(0, 1, 0) end
+        if UIS:IsKeyDown(Enum.KeyCode.LeftShift) then move -= Vector3.new(0, 1, 0) end
+        if move.Magnitude > 0 then move = move.Unit * settings.flySpeed end
+        flyBodyVel.Velocity = move
+        flyBodyGyro.CFrame = camera.CFrame
+    else
+        if flyBodyVel then flyBodyVel:Destroy() flyBodyVel = nil end
+        if flyBodyGyro then flyBodyGyro:Destroy() flyBodyGyro = nil end
+    end
+end)
+
+player.CharacterAdded:Connect(function(char)
+    task.wait(1)
+    local h = char:WaitForChild("Humanoid", 5)
+    if h then
+        h.WalkSpeed = settings.walkSpeed
+        h.JumpPower = settings.jumpPower
+    end
+end)
+
+notify("takcahub v2.1", "RightShift - open menu. Aim ON.", "check")
+print("[takcahub] v2.1 loaded. Menu: RightShift")
