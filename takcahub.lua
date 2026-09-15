@@ -1,3 +1,4 @@
+-- takcahub v2.0 - universal, no auto-hooks
 pcall(function()
     for _, g in pairs(game:GetService("CoreGui"):GetChildren()) do
         if g.Name:find("WindUI") then g:Destroy() end
@@ -11,7 +12,7 @@ end)
 task.wait(0.4)
 
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-if not WindUI then warn("[takcahub] WindUI load failed") return end
+if not WindUI then warn("[takcahub] WindUI не загружен") return end
 
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
@@ -51,6 +52,7 @@ local settings = {
     noclip = false,
     infJump = false,
     fullbright = false,
+    espEnabled = false,
     toggleState = false,
     holdState = false,
     lockedTarget = nil,
@@ -200,7 +202,7 @@ end
 
 local Window = WindUI:CreateWindow({
     Title = "takcahub",
-    Author = "v2.1 universal",
+    Author = "v2.0 universal",
     Icon = "rbxassetid://10734896226",
     IconSize = 20,
     ToggleKey = Enum.KeyCode.RightShift,
@@ -273,12 +275,13 @@ local function notify(title, content, icon)
     end)
 end
 
+-- ========== AIM TAB ==========
 local AimTab = Window:Tab({ Title = "Aim", Icon = "crosshair" })
 AimTab:Section({ Title = "Aimbot" })
 
 AimTab:Toggle({
     Title = "Enable Aim",
-    Desc = "Main switch",
+    Desc = "Главный выключатель",
     Value = settings.aimEnabled,
     Callback = function(v)
         settings.aimEnabled = v
@@ -292,28 +295,25 @@ AimTab:Toggle({
 
 AimTab:Toggle({
     Title = "Silent Aim",
-    Desc = "Warning: may be detected",
+    Desc = "ВНИМАНИЕ: может детектиться античитом",
     Value = settings.silentAim,
     Callback = function(v) settings.silentAim = v end,
 })
 
 AimTab:Toggle({
     Title = "Hard Lock",
-    Desc = "Stick to one target",
     Value = settings.hardLock,
     Callback = function(v) settings.hardLock = v end,
 })
 
 AimTab:Toggle({
     Title = "Team Check",
-    Desc = "Skip teammates",
     Value = settings.teamCheck,
     Callback = function(v) settings.teamCheck = v end,
 })
 
 AimTab:Toggle({
     Title = "Ignore Friends",
-    Desc = "Skip friends",
     Value = settings.ignoreFriends,
     Callback = function(v) settings.ignoreFriends = v end,
 })
@@ -364,7 +364,6 @@ AimTab:Dropdown({
 
 AimTab:Slider({
     Title = "Prediction",
-    Desc = "Target movement compensation",
     Min = 0, Max = 100, Step = 1,
     Value = { Min = 0, Max = 100, Default = settings.prediction * 100 },
     Callback = function(v) settings.prediction = v / 100 end,
@@ -374,7 +373,6 @@ AimTab:Section({ Title = "Trigger Bot" })
 
 AimTab:Toggle({
     Title = "Enable Trigger",
-    Desc = "Auto shoot on target",
     Value = settings.triggerBot,
     Callback = function(v) settings.triggerBot = v end,
 })
@@ -386,12 +384,12 @@ AimTab:Slider({
     Callback = function(v) settings.triggerDelay = v / 1000 end,
 })
 
+-- ========== VISUALS TAB ==========
 local VisualsTab = Window:Tab({ Title = "Visuals", Icon = "eye" })
 VisualsTab:Section({ Title = "FOV" })
 
 VisualsTab:Toggle({
     Title = "Show FOV",
-    Desc = "Draw FOV circle",
     Value = settings.fovVisible,
     Callback = function(v)
         settings.fovVisible = v
@@ -411,7 +409,6 @@ VisualsTab:Slider({
 
 VisualsTab:Slider({
     Title = "Smoothness",
-    Desc = "0 = instant",
     Min = 0, Max = 100, Step = 1,
     Value = { Min = 0, Max = 100, Default = settings.smoothness * 100 },
     Callback = function(v) settings.smoothness = v / 100 end,
@@ -440,7 +437,6 @@ VisualsTab:Dropdown({
 
 VisualsTab:Toggle({
     Title = "Random Circle Color",
-    Desc = "RGB rainbow",
     Value = settings.randomCircleColor,
     Callback = function(v) settings.randomCircleColor = v end,
 })
@@ -449,7 +445,7 @@ VisualsTab:Section({ Title = "World" })
 
 VisualsTab:Toggle({
     Title = "Fullbright",
-    Desc = "Remove darkness",
+    Desc = "Убирает темноту",
     Value = settings.fullbright,
     Callback = function(v)
         settings.fullbright = v
@@ -467,8 +463,9 @@ VisualsTab:Toggle({
     end,
 })
 
+-- ========== PLAYER TAB ==========
 local PlayerTab = Window:Tab({ Title = "Player", Icon = "user" })
-PlayerTab:Section({ Title = "Movement" })
+PlayerTab:Section({ Title = "Движение" })
 
 PlayerTab:Slider({
     Title = "WalkSpeed",
@@ -498,14 +495,13 @@ PlayerTab:Slider({
 
 PlayerTab:Toggle({
     Title = "Infinite Jump",
-    Desc = "Jump in mid air",
     Value = settings.infJump,
     Callback = function(v) settings.infJump = v end,
 })
 
 PlayerTab:Toggle({
     Title = "Noclip",
-    Desc = "Walk through walls",
+    Desc = "Проходить сквозь стены",
     Value = settings.noclip,
     Callback = function(v) settings.noclip = v end,
 })
@@ -514,7 +510,6 @@ PlayerTab:Section({ Title = "Fly" })
 
 PlayerTab:Toggle({
     Title = "Enable Fly",
-    Desc = "WASD to fly",
     Value = settings.flyEnabled,
     Callback = function(v) settings.flyEnabled = v end,
 })
@@ -526,8 +521,9 @@ PlayerTab:Slider({
     Callback = function(v) settings.flySpeed = v end,
 })
 
+-- ========== THEMES TAB ==========
 local ThemesTab = Window:Tab({ Title = "Themes", Icon = "palette" })
-ThemesTab:Section({ Title = "16 WindUI themes" })
+ThemesTab:Section({ Title = "16 тем WindUI" })
 
 local availableThemes = {
     "Dark", "Light", "Rose", "Plant", "Red", "Indigo",
@@ -537,21 +533,22 @@ local availableThemes = {
 
 ThemesTab:Dropdown({
     Title = "Theme",
-    Desc = "Change UI theme",
+    Desc = "Смена темы",
     Values = availableThemes,
     Value = settings.currentTheme,
     Callback = function(v)
         settings.currentTheme = v
         pcall(function() WindUI:SetTheme(v) end)
-        notify("Theme", "Applied: " .. v, "palette")
+        notify("Theme", "Установлена: " .. v, "palette")
     end,
 })
 
+-- ========== MISC TAB (скрипты) ==========
 local MiscTab = Window:Tab({ Title = "Misc", Icon = "wrench" })
-MiscTab:Section({ Title = "Scripts" })
+MiscTab:Section({ Title = "Полезные скрипты" })
 
 local function runScript(url, name)
-    notify("Script", "Loading: " .. name, "download")
+    notify("Script", "Запуск: " .. name, "download")
     task.spawn(function()
         local ok, err = pcall(function()
             loadstring(game:HttpGet(url))()
@@ -564,7 +561,7 @@ end
 
 MiscTab:Button({
     Title = "Infinite Yield",
-    Desc = "Admin commands",
+    Desc = "Админ-команды",
     Callback = function()
         runScript("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", "Infinite Yield")
     end,
@@ -572,7 +569,7 @@ MiscTab:Button({
 
 MiscTab:Button({
     Title = "Nameless Admin",
-    Desc = "Powerful admin script",
+    Desc = "Мощный админ-скрипт",
     Callback = function()
         runScript("https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source", "Nameless Admin")
     end,
@@ -580,7 +577,7 @@ MiscTab:Button({
 
 MiscTab:Button({
     Title = "Dark Dex",
-    Desc = "Game tree viewer",
+    Desc = "Просмотр дерева игры",
     Callback = function()
         runScript("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/Loadstring.lua", "Dark Dex")
     end,
@@ -588,7 +585,7 @@ MiscTab:Button({
 
 MiscTab:Button({
     Title = "SimpleSpy",
-    Desc = "Remote spy",
+    Desc = "Remote Spy",
     Callback = function()
         runScript("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpy.lua", "SimpleSpy")
     end,
@@ -596,7 +593,7 @@ MiscTab:Button({
 
 MiscTab:Button({
     Title = "Hydroxide",
-    Desc = "Remote spy / debug",
+    Desc = "Remote Spy / Debug",
     Callback = function()
         runScript("https://raw.githubusercontent.com/Upbolt/Hydroxide/master/src/hydroxide.lua", "Hydroxide")
     end,
@@ -604,17 +601,24 @@ MiscTab:Button({
 
 MiscTab:Button({
     Title = "OWL Hub",
-    Desc = "Universal cheat hub",
+    Desc = "Универсальный чит-хаб",
     Callback = function()
         runScript("https://raw.githubusercontent.com/OWL-Hub/OWL-Hub/main/Loader.lua", "OWL Hub")
     end,
 })
 
-MiscTab:Section({ Title = "Utilities" })
+MiscTab:Button({
+    Title = "IY Network (Rejoin)",
+    Desc = "Переподключение",
+    Callback = function()
+        runScript("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", "IY")
+    end,
+})
+
+MiscTab:Section({ Title = "Утилиты" })
 
 MiscTab:Button({
     Title = "Rejoin Server",
-    Desc = "Reconnect to same server",
     Callback = function()
         pcall(function()
             game:GetService("TeleportService"):Teleport(game.PlaceId, player)
@@ -623,8 +627,16 @@ MiscTab:Button({
 })
 
 MiscTab:Button({
+    Title = "Server Hop",
+    Callback = function()
+        local ok = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+        end)
+    end,
+})
+
+MiscTab:Button({
     Title = "Reset Character",
-    Desc = "Kill your character",
     Callback = function()
         pcall(function()
             if player.Character then
@@ -634,47 +646,44 @@ MiscTab:Button({
     end,
 })
 
+-- ========== CONFIG TAB ==========
 local ConfigTab = Window:Tab({ Title = "Config", Icon = "save" })
-ConfigTab:Section({ Title = "Management" })
+ConfigTab:Section({ Title = "Управление" })
 
 ConfigTab:Button({
     Title = "Save Config",
-    Desc = "Save settings to file",
     Callback = function()
-        if saveConfig() then notify("Config", "Saved", "check")
-        else notify("Config", "Save failed", "x") end
+        if saveConfig() then notify("Config", "Сохранено", "check")
+        else notify("Config", "Ошибка", "x") end
     end,
 })
 
 ConfigTab:Button({
     Title = "Load Config",
-    Desc = "Load settings from file",
     Callback = function()
         if loadConfig() then
-            notify("Config", "Loaded", "check")
+            notify("Config", "Загружено", "check")
             circle.Radius = settings.radius
             circle.Color = settings.circleColor
             pcall(function() WindUI:SetTheme(settings.currentTheme) end)
         else
-            notify("Config", "Load failed", "x")
+            notify("Config", "Ошибка", "x")
         end
     end,
 })
 
 ConfigTab:Button({
     Title = "Delete Config",
-    Desc = "Remove config file",
     Callback = function()
         if delfile and isfile and isfile(CONFIG_FILE) then
             delfile(CONFIG_FILE)
-            notify("Config", "Deleted", "trash")
+            notify("Config", "Удалено", "trash")
         end
     end,
 })
 
 ConfigTab:Button({
     Title = "Reset Defaults",
-    Desc = "Reset all settings",
     Callback = function()
         settings.radius = 200
         settings.smoothness = 0.3
@@ -691,10 +700,11 @@ ConfigTab:Button({
         circle.Radius = settings.radius
         circle.Color = settings.circleColor
         pcall(function() WindUI:SetTheme("Dark") end)
-        notify("Config", "Reset", "refresh-cw")
+        notify("Config", "Сброшено", "refresh-cw")
     end,
 })
 
+-- ========== HOTKEYS ==========
 UIS.InputBegan:Connect(function(input, gp)
     if gp then return end
     if settings.infJump and input.KeyCode == Enum.KeyCode.Space then
@@ -725,12 +735,13 @@ UIS.InputEnded:Connect(function(input)
     end
 end)
 
+-- ========== SILENT AIM (опционально, только если включён) ==========
 local silentHooked = false
 local oldIndexRef = nil
 
 local function applySilentHook()
     if silentHooked then return end
-    pcall(function()
+    local ok = pcall(function()
         local mt = getrawmetatable(game)
         if not mt then return end
         oldIndexRef = mt.__index
@@ -769,6 +780,7 @@ local function removeSilentHook()
     silentHooked = false
 end
 
+-- ========== MAIN LOOPS ==========
 local hue = 0
 
 RunService.RenderStepped:Connect(function(dt)
@@ -820,6 +832,7 @@ RunService.RenderStepped:Connect(function()
     if mouse1click then mouse1click() end
 end)
 
+-- Noclip
 RunService.Stepped:Connect(function()
     if not settings.noclip then return end
     if not player.Character then return end
@@ -828,6 +841,7 @@ RunService.Stepped:Connect(function()
     end
 end)
 
+-- Fly
 local flyBodyVel, flyBodyGyro
 RunService.RenderStepped:Connect(function(dt)
     if not player.Character then return end
@@ -865,6 +879,7 @@ RunService.RenderStepped:Connect(function(dt)
     end
 end)
 
+-- Respавн: восстановление
 player.CharacterAdded:Connect(function(char)
     task.wait(1)
     local h = char:WaitForChild("Humanoid", 5)
@@ -874,5 +889,5 @@ player.CharacterAdded:Connect(function(char)
     end
 end)
 
-notify("takcahub v2.1", "RightShift - open menu. Aim ON.", "check")
-print("[takcahub] v2.1 loaded. Menu: RightShift")
+notify("takcahub v2.0", "RightShift — меню. Aim ВКЛ.", "check")
+print("[takcahub] v2.0 loaded. Menu: RightShift")
